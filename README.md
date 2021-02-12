@@ -1,2 +1,2 @@
 # SEM-project
-[![Build Status](https://travis-ci.com/scan-lan/SEM-project.svg?token=xXjrgAp1mtUPzsrNfH8z&branch=main)](https://travis-ci.com/scan-lan/SEM-project) ![GitHub](https://img.shields.io/github/license/scan-lan/SEM-project) [![Releases](https://img.shields.io/github/release/scan-lan/SEM-project/all.svg?style=flat-square)](https://github.com/kevin-chalmers/sem/releases)
+[![Build Status](https://travis-ci.com/scan-lan/SEM-project.svg?token=xXjrgAp1mtUPzsrNfH8z&branch=main)](https://travis-ci.com/scan-lan/SEM-project) ![GitHub](https://img.shields.io/github/license/scan-lan/SEM-project) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/scan-lan/SEM-project?include_prereleases)
