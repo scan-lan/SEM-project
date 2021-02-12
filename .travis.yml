@@ -5,6 +5,7 @@ language: java
 services:
   - docker
 
+# build creates the docker image with the name se_methods
 after_success:
   - docker build -t se_methods .
   - docker run se_methods
