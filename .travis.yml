@@ -11,5 +11,5 @@ after_success:
   - docker pull mongo # get the mongodb image
   # run mongodb in a container called mongo-dbserver on the se-methods network bridge
   - docker run -d --name mongo-dbserver --network se-methods mongo
-  - docker build -t se_methods . # creates the docker image with the name se_methods
-  - docker run --network se-methods se_methods # runs the se_methods image on the se-methods network bridge
+  - docker build -t se-methods-image . # creates the docker image with the name se_methods
+  - docker run --network se-methods se-methods-image # runs the se_methods image on the se-methods network bridge
