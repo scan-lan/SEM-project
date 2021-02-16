@@ -5,11 +5,5 @@ language: java
 services:
   - docker
 
-# build creates the docker image with the name se_methods
 after_success:
-  - docker network create --driver bridge se-methods # create the network bridge and name it se-methods
-  - docker pull mongo # get the mongodb image
-  # run mongodb in a container called mongo-dbserver on the se-methods network bridge
-  - docker run -d --name mongo-dbserver --network se-methods mongo
-  - docker build -t se-methods-image . # creates the docker image with the name se-methods-image
-  - docker run --network se-methods se-methods-image # runs se-methods-image on the se-methods network bridge
+  - docker-compose up --abort-on-container-exit
