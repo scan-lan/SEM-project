@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App
 {
@@ -12,11 +13,14 @@ public class App
         // Connect to database
         a.connect();
 
-        // Get Employee
-        Employee emp = a.getEmployee(255530);
+        // Extract employee salary information
+        ArrayList<Employee> employees = a.getAllSalaries();
 
-        // Display results
-        a.displayEmployee(emp);
+        // Test the size of the returned data - should be 240124
+        System.out.println(employees.size());
+
+        // Print message saying whether the data is the correct size
+        System.out.println((employees.size() == 240124) ? "Data is correct size" : "Data is not correct size");
 
         // Disconnect from database
         a.disconnect();
@@ -50,16 +54,16 @@ public class App
             try
             {
                 // Wait a bit for db to start
-                Thread.sleep(30000);
+                Thread.sleep(45000);
                 // Connect to database
                 con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
                 break;
             }
-            catch (SQLException sqle)
+            catch (SQLException e)
             {
                 System.out.println("Failed to connect to database attempt " + i);
-                System.out.println(sqle.getMessage());
+                System.out.println(e.getMessage());
             }
             catch (InterruptedException ie)
             {
@@ -116,19 +120,19 @@ public class App
                             "AND de.to_date = '9999-01-01' " +
                             "AND m.to_date = '9999-01-01'";
             // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
+            ResultSet resultSet = stmt.executeQuery(strSelect);
             // Return new employee if valid.
             // Check one is returned
-            if (rset.next())
+            if (resultSet.next())
             {
                 Employee emp = new Employee();
-                emp.emp_no = rset.getInt("e.emp_no");
-                emp.first_name = rset.getString("first_name");
-                emp.last_name = rset.getString("last_name");
-                emp.title = rset.getString("title");
-                emp.salary = rset.getInt("salary");
-                emp.dept_name = rset.getString("dept_name");
-                emp.manager = rset.getString("manager");
+                emp.emp_no = resultSet.getInt("e.emp_no");
+                emp.first_name = resultSet.getString("first_name");
+                emp.last_name = resultSet.getString("last_name");
+                emp.title = resultSet.getString("title");
+                emp.salary = resultSet.getInt("salary");
+                emp.dept_name = resultSet.getString("dept_name");
+                emp.manager = resultSet.getString("manager");
                 return emp;
             }
             else
@@ -138,6 +142,41 @@ public class App
         {
             System.out.println(e.getMessage());
             System.out.println("Failed to get employee details");
+            return null;
+        }
+    }
+
+    public ArrayList<Employee> getAllSalaries()
+    {
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect = "SELECT e.emp_no, first_name, last_name, salary\n" +
+                    "FROM employees e\n" +
+                    "JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                    "WHERE s.to_date = '9999-01-01'\n" +
+                    "ORDER BY e.emp_no";
+            // Execute SQL statement
+            ResultSet resultSet = stmt.executeQuery(strSelect);
+            // Extract employee information
+            ArrayList<Employee> employees = new ArrayList<>();
+            while (resultSet.next())
+            {
+                Employee emp = new Employee();
+                emp.emp_no = resultSet.getInt("e.emp_no");
+                emp.first_name = resultSet.getString("first_name");
+                emp.last_name = resultSet.getString("last_name");
+                emp.salary = resultSet.getInt("salary");
+                employees.add(emp);
+            }
+            return employees;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get salary details");
             return null;
         }
     }
