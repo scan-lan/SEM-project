@@ -22,6 +22,9 @@ public class App
         // Print message saying whether the data is the correct size
         System.out.println((employees.size() == 240124) ? "Data is correct size" : "Data is not correct size");
 
+        // Display employees
+        a.displaySalaries(employees);
+
         // Disconnect from database
         a.disconnect();
     }
@@ -146,6 +149,11 @@ public class App
         }
     }
 
+    /**
+     * Fetches all employee records with current salary details from
+     * employees database
+     * @return An array of the employee records
+     */
     public ArrayList<Employee> getAllSalaries()
     {
         try
@@ -199,6 +207,24 @@ public class App
                             + "Department: "
                             + employee.dept_name + "\n"
                             + "Manager: " + employee.manager + "\n");
+        }
+    }
+
+    /**
+     * Displays a list of employees and their salaries.
+     * @param employees The list of employees to print
+     */
+    public void displaySalaries(ArrayList<Employee> employees)
+    {
+        // Print header
+        System.out.printf("%-10s %-15s %-20s %-8s%n", "Emp No", "First Name", "Last Name", "Salary");
+        // Loop over all employees in the list
+        for (Employee emp : employees)
+        {
+            String emp_string =
+                    String.format("%-10s %-15s %-20s %-8s",
+                            emp.emp_no, emp.first_name, emp.last_name, emp.salary);
+            System.out.println(emp_string);
         }
     }
 }
