@@ -11,7 +11,7 @@ public class App
         App a = new App();
 
         // Connect to database
-        a.connect();
+        a.connect("db:3306");
 
         // Extract employee salary information
         ArrayList<Employee> employees = a.getAllSalaries();
@@ -37,7 +37,7 @@ public class App
     /**
      * Connect to the MySQL database.
      */
-    public void connect()
+    public void connect(String location)
     {
         try
         {
@@ -57,9 +57,9 @@ public class App
             try
             {
                 // Wait a bit for db to start
-                Thread.sleep(45000);
+                Thread.sleep(5000);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://" +  location + "/employees?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
                 break;
             }
